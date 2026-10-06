@@ -28,6 +28,6 @@ async function start() {
   if (!process.env.MONGODB_URI) { console.error('MONGODB_URI is missing. Copy .env.example to .env and configure MongoDB Atlas.'); process.exit(1); }
   await mongoose.connect(process.env.MONGODB_URI);
   console.log('MongoDB connected');
-  app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
+  app.listen(PORT, '0.0.0.0', () => console.log(`API running on port ${PORT}`));
 }
 start().catch(err => { console.error('Startup failed:', err.message); process.exit(1); });
