@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const employeeRoutes = require('./routes/employeeRoutes');
+const docsRoutes = require('./routes/docs');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 300, standardHeaders: true, l
 
 app.get('/', (req, res) => res.json({ service: 'Gupio Employee Management API', status: 'healthy', version: '1.0.0' }));
 app.get('/api/health', async (req, res) => res.json({ success: true, api: 'healthy', database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected' }));
+app.use('/api/docs', docsRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use((req, res) => res.status(404).json({ success: false, message: 'Route not found.' }));
 app.use(errorHandler);
